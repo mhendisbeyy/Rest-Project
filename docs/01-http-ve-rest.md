@@ -1,5 +1,7 @@
 # 01 — HTTP ve REST
 
+Bu dersi [API ve REST Mimarisi ekranında](http://localhost:5173/pages/api-ve-rest) HTTP örnekleri ve tıklanabilir kısıt kartlarıyla anlatabilirsin. [Ekranın sunum notu](21-api-ve-rest-mimarisi.md).
+
 ## Hedef
 
 Katılımcı, React'in sunucuya hangi bilgileri gönderdiğini ve sunucunun ne döndürdüğünü açıklayabilsin. HTTP protokolü, REST yaklaşımı ve Spring'in rolünü ayırsın.

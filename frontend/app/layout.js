@@ -6,6 +6,8 @@ import 'primeicons/primeicons.css';
 import '../styles/layout/layout.scss';
 import '../styles/pages/gorevler.scss';
 import '../styles/pages/istegin-yolculugu.scss';
+import '../styles/pages/rehberler.scss';
+import '../styles/pages/api-rest.scss';
 
 export const metadata = {
   title: 'REST Atölyesi',

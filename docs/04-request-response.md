@@ -1,5 +1,7 @@
 # 04 — URL, header, body ve yanıt
 
+Ekran üzerinden anlatım: [Spring MVC Parametre Bağlama](http://localhost:5173/pages/parametre-baglama). 10 anotasyonun istek/kod örnekleri ve kullanım akışı [rehber notundadır](19-http-ve-parametre-rehberleri.md).
+
 ## Bir okuma isteği
 
 ```http

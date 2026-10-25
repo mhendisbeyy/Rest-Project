@@ -61,11 +61,12 @@ export const steps = [
   {
     id: 'filters', phase: 'mvc', title: 'Servlet FilterChain', subtitle: 'Servlet’ten önce ve sonra', icon: 'pi-filter',
     summary: 'Filtreler isteği sarabilir, reddedebilir veya chain.doFilter ile sonraki adıma geçirebilir.',
-    paragraphs: ['Filtre, DispatcherServlet’in dışındadır. Zincire devam edilmezse MVC’ye ulaşılmaz. chain.doFilter öncesindeki kod gidişte, sonrasındaki kod ise kontrol geri döndüğünde çalışır.', 'Bu projede özel JWT ve request logging filtresi henüz yoktur. P5’te Spring Security, Authorization header’ındaki Bearer token’ı bu sınırda doğrulayacak. P6’da log korelasyonu eklenecek.'],
+    paragraphs: ['Filtre, DispatcherServlet’in dışındadır. Tomcat kayıtlı filtrelerden URL/servlet eşlemesi ve dispatch türü uyanları seçer. chain.doFilter sıradaki filtreye, sonunda Servlet’e geçer. Çağrılmazsa alt zincire ve MVC’ye ulaşılmaz.', 'Boot başlangıç kaydında characterEncodingFilter, formContentFilter ve requestContextFilter görüldü. Aşağıdaki bölümde görevlerini, kayıt/sıra kurallarını ve gidiş-dönüş modelini inceleyebilirsin.', 'Bu projede özel JWT ve request logging filtresi henüz yoktur. P5’te Spring Security, Authorization header’ındaki Bearer token’ı bu sınırda doğrulayacak. P6’da log korelasyonu eklenecek.'],
     input: 'Servlet request/response.', output: 'DispatcherServlet’e geçiş veya filtrede sonlandırılan yanıt.',
     code: '// Kavramsal örnek; projede kayıtlı özel filtre değildir.\ntry {\n    chain.doFilter(request, response);\n} finally {\n    // Yanıt status’unu oku, kaynakları/MDC’yi temizle.\n}', language: 'Java · kavramsal',
     file: 'Servlet altyapısı; özel Security/logging filtresi P5/P6', breakpoint: 'İleri inceleme: container filter zinciri; P5 sonrası FilterChainProxy.',
     pitfall: 'MVC advice, filtrede oluşan bütün hataları otomatik yakalamaz.',
+    source: { label: 'Servlet Filter sözleşmesi', url: 'https://jakarta.ee/specifications/servlet/6.1/apidocs/jakarta.servlet/jakarta/servlet/Filter.html' },
   },
   {
     id: 'dispatcher', phase: 'mvc', title: 'DispatcherServlet', subtitle: 'Spring MVC’nin merkezî yönlendiricisi', icon: 'pi-directions',

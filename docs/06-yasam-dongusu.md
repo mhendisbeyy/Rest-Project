@@ -40,6 +40,8 @@ Next.js burada tarayıcının göreli API isteğini backend'e taşır. Redux HTT
 
 ## Controller'dan önce neler olur?
 
+Timeline’ın Servlet FilterChain dialogunda gerçek Boot filtre kayıtları, kayıt/sıra, dispatch türleri ve etkileşimli A/B modeli bulunur. [Ayrıntılı anlatım](20-servlet-filter-chain.md).
+
 Tomcat servlet filtre zincirini ve Spring MVC'yi çalıştırır. DispatcherServlet uygun handler'ı seçer. MVC parametre bağlama, JSON dönüşümü ve validation yapar. Bu hazırlıkta hata varsa controller metodu veya Service çağrılmaz.
 
 ## Service ve transaction sınırı

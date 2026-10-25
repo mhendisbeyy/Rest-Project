@@ -19,6 +19,9 @@ export default function Layout({ children }) {
     <aside className="layout-sidebar" aria-label="Eğitim menüsü">
       <div className="menu-caption">ÇALIŞMA ALANI</div>
       <Link href="/pages/gorevler" className={`menu-item ${pathname === '/pages/gorevler' ? 'active' : ''}`} aria-current={pathname === '/pages/gorevler' ? 'page' : undefined} onClick={closeMenu}><i className="pi pi-check-square" />Görev yönetimi</Link>
+      <Link href="/pages/api-ve-rest" className={`menu-item ${pathname === '/pages/api-ve-rest' ? 'active' : ''}`} aria-current={pathname === '/pages/api-ve-rest' ? 'page' : undefined} onClick={closeMenu}><i className="pi pi-globe" />API ve REST mimarisi</Link>
+      <Link href="/pages/parametre-baglama" className={`menu-item ${pathname === '/pages/parametre-baglama' ? 'active' : ''}`} aria-current={pathname === '/pages/parametre-baglama' ? 'page' : undefined} onClick={closeMenu}><i className="pi pi-code" />Parametre bağlama</Link>
+      <Link href="/pages/http-metotlari" className={`menu-item ${pathname === '/pages/http-metotlari' ? 'active' : ''}`} aria-current={pathname === '/pages/http-metotlari' ? 'page' : undefined} onClick={closeMenu}><i className="pi pi-send" />HTTP metotları</Link>
       <Link href="/pages/istegin-yolculugu" className={`menu-item ${pathname === '/pages/istegin-yolculugu' ? 'active' : ''}`} aria-current={pathname === '/pages/istegin-yolculugu' ? 'page' : undefined} onClick={closeMenu}><i className="pi pi-sitemap" />İsteğin yolculuğu</Link>
       <a href="http://localhost:8080/swagger-ui/index.html" className="menu-item" target="_blank" rel="noreferrer"><i className="pi pi-book" />Swagger UI<i className="pi pi-external-link external-icon" /></a>
       <div className="sidebar-lesson"><span className="pi pi-lightbulb" /><strong>Bir istek, uçtan uca.</strong><p>Sayfa → Redux → Axios → Spring → PostgreSQL</p></div>

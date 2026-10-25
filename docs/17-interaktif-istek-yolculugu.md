@@ -63,6 +63,8 @@ Bu çizelge katmanları sade biçimde gösterir; her nokta tek bir metot çağr�
 
 ## Backend'de iki farklı interceptor kavramı
 
+Servlet FilterChain durağı ayrıca Boot başlangıç kaydındaki üç filtreyi, FilterRegistrationBean örneğini, lifecycle/dispatch türlerini ve bağımsız etkileşimli zincir modelini açar. [FilterChain ders notu](20-servlet-filter-chain.md).
+
 - **MVC HandlerInterceptor:** Seçilen handler çevresindeki MVC kancası; bu projede özel uygulaması kayıtlı değil.
 - **TransactionInterceptor:** @Transactional Service çağrısını saran Spring AOP mekanizması.
 
@@ -105,6 +107,6 @@ Anlatım değiştiğinde journeyContent içindeki açıklama ve örnekleri gerç
 
 ## Doğrulama
 
-Timeline'ın 9 testi; gerçek görev GET mesajı, tek frontend adımı, Controller/Service/Repository bitişikliği, ayrıntılara taşınan transaction/iş kuralı/MapStruct, kod yolu düğmeleri, dialog/klavye gezintisi ve 400/409/204 rotalarını kontrol eder. Seçili hata senaryosunda doğru Advice/ProblemDetail kodu, POST Servlet değerleri ve örneklerin görünmesi de test edilir. Önceki 14 frontend testiyle toplam 23 test, lint ve Next.js üretim build'i başarılı; 19 backend testi de H2 üzerinde geçti. Güncel PostgreSQL kontrolünün şema sınırı ve önceki sonuçlardan farkı [denetim kaydındadır](18-timeline-icerik-denetimi.md). Gerçek tarayıcı görsel provası, önceki Chrome erişim onayı kısıtı nedeniyle ayrıca doğrulanmış sayılmıyor.
+Timeline'ın 9 temel testi; gerçek görev GET mesajı, tek frontend adımı, Controller/Service/Repository bitişikliği, ayrıntılara taşınan transaction/iş kuralı/MapStruct, kod yolu düğmeleri, dialog/klavye gezintisi ve 400/409/204 rotalarını kontrol eder. Seçili hata senaryosunda doğru Advice/ProblemDetail kodu, POST Servlet değerleri ve örneklerin görünmesi de test edilir. Ek mimari testleri FilterChain modelini ve API/REST ekranını doğrular; toplam 29 frontend testi, lint ve Next.js üretim build'i başarılı. 19 backend testi de önceki içerik denetiminde H2 üzerinde geçti. PostgreSQL kontrolünün şema sınırı ve önceki sonuçlardan farkı [denetim kaydındadır](18-timeline-icerik-denetimi.md). Gerçek tarayıcı görsel provası, önceki Chrome erişim onayı kısıtı nedeniyle ayrıca doğrulanmış sayılmıyor.
 
 [Yaşam döngüsü dersi](06-yasam-dongusu.md) · [Demo akışı](10-demo-akisi.md) · [İçindekiler](README.md)

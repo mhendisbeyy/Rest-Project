@@ -1,5 +1,7 @@
 # 05 — HTTP metodlarını kullanıcı hareketleriyle anlatmak
 
+Kartlar ve ayrıntı dialogları: [HTTP Metotları ekranı](http://localhost:5173/pages/http-metotlari). PUT/PATCH karşılaştırması ile safe/idempotent açıklamalarının [anlatım notu](19-http-ve-parametre-rehberleri.md).
+
 Bu bölümdeki beş temel metod uygulamada çalışıyor. Canlı kod karşılıkları: [TaskController](../backend/src/main/java/com/example/restworkshop/controllers/TaskController.java), [TaskService](../backend/src/main/java/com/example/restworkshop/services/TaskService.java), [Axios görev servisi](../frontend/services/taskService.js). Ekran üzerinden anlatım için [CRUD dersini](15-crud-ve-dogrulama.md) kullan. Security henüz eklenmedi; bu aşamada silme için ADMIN gerekmez.
 
 ## Temel işlemler

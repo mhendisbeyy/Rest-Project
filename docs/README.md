@@ -24,6 +24,9 @@ P1–P4 ve YKH yapısına dönüşüm tamamlandı: GET/POST/PUT/PATCH/DELETE, fo
 | [16 — YKH yapısına geçiş](16-ykh-yapisina-gecis.md) | Yeni dosya düzeni, teknoloji dönüşümü ve doğrulama kaydı |
 | [17 — İnteraktif istek yolculuğu](17-interaktif-istek-yolculugu.md) | 15 duraklı timeline, DispatcherServlet ayrıntıları ve hata rotaları |
 | [18 — Timeline içerik denetimi](18-timeline-icerik-denetimi.md) | Kod karşılaştırması, 27 açıklayıcı örnek, düzeltmeler ve güncel doğrulama sınırları |
+| [19 — HTTP ve parametre bağlama rehberleri](19-http-ve-parametre-rehberleri.md) | İki ders ekranı, 10 anotasyon, 7 HTTP metodu ve gerçek görev kodu örnekleri |
+| [20 — Servlet FilterChain](20-servlet-filter-chain.md) | Gerçek Boot kayıtları, sıralama, dispatch, lifecycle ve etkileşimli zincir modeli |
+| [21 — API ve REST mimarisi](21-api-ve-rest-mimarisi.md) | API sözleşmesi, REST kısıtları ve görev uygulamasının kaynak koduyla değerlendirilmesi |
 
 ## Ders anlatma biçimi
 

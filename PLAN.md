@@ -99,6 +99,8 @@ Kabul: token yok/geçersiz/süresi dolmuş → 401; USER ile DELETE → 403; ADM
 - [x] Sayfa → Redux → Axios → Spring → Repository/MapStruct şemasını göster.
 - [x] Ayrı /pages/istegin-yolculugu ekranı: tek frontend + 14 backend durağı, kıvrımlı düzen ve detay Dialog'u; gerçek görev GET isteği, TaskController/TaskService/Repository/Mapper kaynak alıntıları ve görev CRUD senaryoları.
 - [x] Timeline içerik denetimi: 14 kaynak alıntısını kodla karşılaştır, 400/409/204 ve Servlet örneklerini düzelt, dialoglara 27 karşılaştırma örneği ekle. [Denetim kaydı](docs/18-timeline-icerik-denetimi.md).
+- [x] Görev Yönetimi'ne ve menüye Spring MVC parametre bağlama / HTTP metotları rehberleri ekle: 10 anotasyon, 7 metot, gerçek kod ve ek örnekler, kapsam filtresi ve detay dialogları. [Ders notu](docs/19-http-ve-parametre-rehberleri.md).
+- [x] FilterChain dialogunu gerçek Boot kayıtları, kayıt/sıra/dispatch/lifecycle, bağımsız zincir modeli ve Security ayrımıyla genişlet. API/REST için ayrı kaynak kodu temelli ders ekranı ekle. [FilterChain](docs/20-servlet-filter-chain.md), [API/REST](docs/21-api-ve-rest-mimarisi.md).
 - [ ] Her isteğe X-Request-ID ekle; backend'de doğrula veya üret.
 - [ ] Security'den önce tek kez kayıtlı logging filter; method/path/status/süre ve MDC temizliği.
 - [ ] Response header ve ProblemDetail requestId ile log eşleşmesini test et.
@@ -110,7 +112,7 @@ Kabul: tek bir istek panel, response header ve loglarda aynı sunucu request ID'
 
 - [x] CRUD/filtre/sayfalama, validation, 404/409, PUT/PATCH DONE kuralı.
 - [x] POST Location, boş DELETE, form hataları ve UI regresyonları.
-- [x] 19 backend testi, 23 frontend testi (9 timeline testi dahil), lint, Next.js build; YKH dönüşümünde WAR doğrulaması.
+- [x] 19 backend testi, 29 frontend testi (9 timeline, 3 rehber, 3 FilterChain/API-REST testi dahil), lint, Next.js build; YKH dönüşümünde WAR doğrulaması.
 - [x] OpenAPI JSON ve Swagger UI; gerçek WAR üzerinden HTTP kontrolü.
 - [x] Veri korumasını başlangıç/son PostgreSQL alan karşılaştırmasıyla doğrula.
 - [ ] Son içerik denetiminde gorevdb içinde bulunmayan tasks şemasını sunumdan önce kontrol et; güncel canlı CRUD provası yap.

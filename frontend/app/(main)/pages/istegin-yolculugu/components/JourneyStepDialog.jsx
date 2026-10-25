@@ -6,6 +6,7 @@ import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
 import { phases } from './journeyContent';
 import JourneyExampleCards from './JourneyExampleCards';
+import FilterChainDetails from '../../../../../components/lessons/FilterChainDetails';
 
 export default function JourneyStepDialog({ visible, selected, scenario, index, total, onHide, onPrevious, onNext }) {
   const dialog = useRef(null);
@@ -41,6 +42,7 @@ export default function JourneyStepDialog({ visible, selected, scenario, index, 
       <div className="journey-io"><div><h3><i className="pi pi-sign-in" aria-hidden="true" />Girdi</h3><p>{selected.input}</p></div><div><h3><i className="pi pi-sign-out" aria-hidden="true" />Çıktı</h3><p>{selected.output}</p></div></div>
       <div className="journey-code" role="region" aria-label="Seçili senaryonun kod örneği"><div><h3>{skipped ? 'Genel kod / akış örneği' : 'Kod / akış örneği'}</h3><span>{selected.language}</span></div><pre><code>{selected.code}</code></pre></div>
       <JourneyExampleCards title={selected.title} examples={selected.examples} skipped={skipped} />
+      {selected.id === 'filters' && <FilterChainDetails />}
       {selected.details?.length > 0 && <section className="journey-layer-details" aria-labelledby="layer-details-heading">
         <h3 id="layer-details-heading">Bu bölümün ayrıntıları</h3><p>{selected.detailsIntro}</p>
         {selected.details.map(part => <details key={`${selected.id}-${part.id}`} open={selected.id === 'response'}>

@@ -7,6 +7,7 @@ import { Toast } from 'primereact/toast';
 import { changeQuery, clearDetail, clearError, createTask, loadTask, loadTasks, refreshTasks, removeTask, updateStatus, updateTask } from '../../../../../store/slices/taskSlice';
 import RequestInspector from '../../../../../components/RequestInspector';
 import LifecycleDiagram from '../../../../../components/LifecycleDiagram';
+import LessonLinks from '../../../../../components/lessons/LessonLinks';
 import TaskList from './TaskList';
 import TaskDetail from './TaskDetail';
 import TaskFormDialog from '../Dialogs/TaskFormDialog';
@@ -52,6 +53,7 @@ export default function TasksPage() {
         onStatusChange={value => { dispatch(updateStatus({ id: selectedTask.id, status: value })); }}
         onDelete={() => dispatch(removeTask(selectedTask.id)).unwrap()} />}
     </div><RequestInspector /></div>
+    <LessonLinks />
     <LifecycleDiagram />
     {form && <TaskFormDialog key={form.mode === 'edit' ? `edit-${form.task.id}` : 'create'} task={form.mode === 'edit' ? form.task : null} busy={state.mutating || state.loading} onSave={save} onClose={() => setForm(null)} />}
   </>;

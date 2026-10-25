@@ -13,7 +13,7 @@ code, pre { font-family: Consolas, 'Courier New', monospace; }
 .brand-icon { background: #eef0ff; color: #6366f1; padding: 11px; border-radius: 12px; font-size: 18px; }
 .topbar-note { margin-left: auto; color: #8490a6; font-size: 12px; }
 .topbar-avatar { border-radius: 50%; background: #eef0ff; color: #6366f1; padding: 10px; font-size: 12px; font-weight: 650; }
-.layout-sidebar { position: fixed; top: 94px; bottom: 24px; left: 22px; width: 226px; padding: 25px 16px; background: white; border: 1px solid #e8ecf3; border-radius: 14px; display: flex; flex-direction: column; z-index: 99; }
+.layout-sidebar { position: fixed; top: 94px; bottom: 24px; left: 22px; width: 226px; padding: 25px 16px; background: white; border: 1px solid #e8ecf3; border-radius: 14px; display: flex; flex-direction: column; z-index: 99; overflow-y: auto; }
 .menu-caption { font-size: 10px; letter-spacing: 1.4px; font-weight: 650; color: #9aa4b6; padding: 0 13px 18px; }
 .menu-item { display: flex; align-items: center; gap: 11px; padding: 14px 12px; margin-bottom: 5px; border-radius: 8px; font-size: 13px; color: #69768d; }
 .menu-item:hover { background: #f5f6fc; }.menu-item.active { background: #eef0ff; color: #6366f1; font-weight: 600; }

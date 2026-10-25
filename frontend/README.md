@@ -2,6 +2,10 @@
 
 YKH `ykhclient` düzenini izleyen Next.js App Router ve JavaScript uygulaması. Ana sayfa `/pages/gorevler`; kök adres buraya yönlenir.
 
+`/pages/api-ve-rest`, API/HTTP/REST kavramlarını, REST’in altı kısıtını ve görev API’sindeki karşılıklarını açıklar. Hypermedia/cache geliştirme alanları ayrıca belirtilir. Timeline’daki FilterChain dialogunda gerçek Boot kayıtları, kayıt/dispatch/lifecycle ayrıntıları ve etkileşimli A/B modeli bulunur. [API/REST notu](../docs/21-api-ve-rest-mimarisi.md), [FilterChain notu](../docs/20-servlet-filter-chain.md).
+
+Yan menüdeki `/pages/parametre-baglama` ve `/pages/http-metotlari`, 10 Spring MVC anotasyonu ile 7 HTTP metodunu açıklar. Kartlar HTTP/Java örneklerini dialogda açar; kullanılan kod ile ek öğretici örnekler ayrılır. Görev Yönetimi ekranında da bu derslerin bağlantıları bulunur. [Anlatım notları](../docs/19-http-ve-parametre-rehberleri.md).
+
 `/pages/istegin-yolculugu`, satır sonunda kıvrılarak devam eden 15 duraklı eğitim ekranıdır: tek frontend adımı ve 14 backend durağı. Controller → Service → Repository peş peşedir; transaction ve iş kuralı Service ayrıntısında, MapStruct yanıt ayrıntısında açılır. Varsayılan gerçek GET /api/tasks?page=0&size=5&status=OPEN isteği ve kaynak kod düğmeleri korunur. “Gerçek GET yanıtını aç” bağlantısı güncel API JSON'unu gösterir. [Kullanım notları](../docs/17-interaktif-istek-yolculugu.md).
 
 ## Komutlar
@@ -61,7 +65,7 @@ npm.cmd run lint
 npm.cmd run build
 ```
 
-23 test; 204, ProblemDetail, ağ hatası, iptal, form hataları, PUT/PATCH, silme onayı, son sayfa, geçmiş seçimi, filtre, store yalıtımı ve timeline etkileşimlerini kapsar. Timeline'ın 9 testi, hata senaryosuna uygun kod/JSON ve Servlet örneklerini de kontrol eder. Dialoglarda 27 açıklayıcı örnek bulunur; [içerik denetimi](../docs/18-timeline-icerik-denetimi.md). JSDOM gerçek tarayıcı görsel provası değildir. DOM test dosyaları, kaynak yarışını önlemek için sırayla çalıştırılır; test başına süre sınırı 10 saniyedir.
+29 test; 204, ProblemDetail, ağ hatası, iptal, form hataları, PUT/PATCH, silme onayı, son sayfa, geçmiş seçimi, filtre, store yalıtımı, timeline ve ders ekranlarının etkileşimlerini kapsar. Timeline'ın 9 temel testi, hata senaryosuna uygun kod/JSON ve Servlet örneklerini de kontrol eder. Timeline dialoglarında 27 karşılaştırma örneği bulunur; [içerik denetimi](../docs/18-timeline-icerik-denetimi.md). Parametre/HTTP rehberlerinin 3 ve FilterChain/API-REST eklemelerinin 3 etkileşim testi vardır. JSDOM gerçek tarayıcı görsel provası değildir. DOM test dosyaları sırayla çalıştırılır; test başına süre sınırı 10 saniyedir.
 
 Vite uygulama sunucusu kaldırıldı. `@vitejs/plugin-react` ve dolaylı Vite bağımlılığı yalnızca Vitest'in JSX test dönüşümünde kullanılır. Ürün `next dev/build/start` ile çalışır. Next.js 15.5.28 korunurken denetimde saptanan eski PostCSS alt bağımlılığı `overrides.postcss` ile güncel 8.x yamasına alınmıştır; çözülen kesin sürüm lock dosyasındadır.
 
