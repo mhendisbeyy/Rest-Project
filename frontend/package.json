@@ -1,0 +1,36 @@
+{
+  "name": "rest-atolyesi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 5173",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1 --port 5173",
+    "lint": "eslint . --max-warnings=0",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "2.13.0",
+    "axios": "1.20.0",
+    "next": "15.5.28",
+    "primeflex": "4.0.0",
+    "primeicons": "7.0.0",
+    "primereact": "10.9.9",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-redux": "9.3.0",
+    "sass": "1.106.1"
+  },
+  "overrides": { "postcss": "^8.5.23" },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.0.0",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.8",
+    "@vitejs/plugin-react": "6.1.2",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "15.5.28",
+    "jsdom": "29.1.1",
+    "vitest": "5.0.5"
+  }
+}
