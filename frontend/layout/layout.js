@@ -22,7 +22,7 @@ export default function Layout({ children }) {
       <Link href="/pages/istegin-yolculugu" className={`menu-item ${pathname === '/pages/istegin-yolculugu' ? 'active' : ''}`} aria-current={pathname === '/pages/istegin-yolculugu' ? 'page' : undefined} onClick={closeMenu}><i className="pi pi-sitemap" />İsteğin yolculuğu</Link>
       <a href="http://localhost:8080/swagger-ui/index.html" className="menu-item" target="_blank" rel="noreferrer"><i className="pi pi-book" />Swagger UI<i className="pi pi-external-link external-icon" /></a>
       <div className="sidebar-lesson"><span className="pi pi-lightbulb" /><strong>Bir istek, uçtan uca.</strong><p>Sayfa → Redux → Axios → Spring → PostgreSQL</p></div>
-      <div className="sidebar-footer">YKH mimarisiyle öğren</div>
+      
     </aside>
     {menuOpen && <button className="menu-overlay" aria-label="Menüyü kapat" onClick={closeMenu} />}
     <div className="layout-main-container"><main className="layout-main">{children}</main><footer className="layout-footer"><span>REST Atölyesi · Bir isteğin hikâyesi</span><span>Next.js · Spring Boot · PostgreSQL</span></footer></div>

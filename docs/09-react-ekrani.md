@@ -68,6 +68,6 @@ Authorization, Cookie, Set-Cookie ve CSRF başlıkları geçmişe açık değerl
 
 ## Test sınırı
 
-18 test Axios ve gerçek PrimeReact bileşenlerinin JSDOM davranışlarını doğrular. Timeline etkileşimleri, store yalıtımı, filtreyi tüm durumlara geri alma, alan hataları, PUT/PATCH, silme onayı, son sayfa ve yazma yanıtı seçimi kapsanır. Otomatik onay Chrome erişimini reddettiğinden gerçek tarayıcı görsel provası yapılamadı.
+23 test Axios ve gerçek PrimeReact bileşenlerinin JSDOM davranışlarını doğrular. Timeline etkileşimleri, seçili senaryoya uygun Advice/JSON ve Servlet örnekleri, store yalıtımı, filtreyi tüm durumlara geri alma, alan hataları, PUT/PATCH, silme onayı, son sayfa ve yazma yanıtı seçimi kapsanır. Dialoglardaki 27 açıklayıcı örnek için [içerik denetimi](18-timeline-icerik-denetimi.md). Otomatik onay Chrome erişimini reddettiğinden gerçek tarayıcı görsel provası yapılamadı.
 
 [Önceki: Hatalar](08-validation-ve-hatalar.md) · [Sonraki: Demo akışı](10-demo-akisi.md)

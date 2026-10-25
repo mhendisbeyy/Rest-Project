@@ -132,7 +132,7 @@ node scripts/smoke-crud.mjs http://127.0.0.1:5173
 
 [Canlı kontrol betiği](../scripts/smoke-crud.mjs) benzersiz başlıklı bir test görevi oluşturur; tüm yazma yöntemlerini, 400/409'u, 201/Location'ı ve boş 204'ü kontrol eder. Sonunda kendi test görevini siler; mevcut görev tablosunu sıfırlamaz. Kayıt sayısının başlangıca dönmesini kontrol eder. YKH dönüşüm provasında ayrıca başlangıçtaki altı PostgreSQL kaydının bütün alanları karşılaştırıldı ve aynı kaldığı doğrulandı. Identity sayacı geri alınmaz; sonraki ID'nin artması beklenir.
 
-Doğrulama sonucu: 19 backend testi, 18 frontend testi, build/lint ve gerçek PostgreSQL üzerinde Next.js rewrite dahil canlı CRUD kontrolü başarılı. Frontend testleri JSDOM ve kontrollü HTTP yanıtlarıyla çalışır; görsel tarayıcı provası değildir. Önceki Chrome erişim kısıtı nedeniyle görsel prova henüz yapılmadı.
+Güncel doğrulama sonucu: 19 backend testi, 23 frontend testi ve build/lint başarılı. PostgreSQL üzerinde Next.js rewrite dahil canlı CRUD, YKH dönüşümünde kontrol edilmişti; son içerik denetiminde gorevdb içinde tasks tablosu bulunmadığından veri erişimi gerektiren canlı yanıtlar 500 döndü. [Güncel denetim kaydı](18-timeline-icerik-denetimi.md). Frontend testleri JSDOM ve kontrollü HTTP yanıtlarıyla çalışır; görsel tarayıcı provası değildir. Önceki Chrome erişim kısıtı nedeniyle görsel prova henüz yapılmadı.
 
 ## Sıradaki aşama
 

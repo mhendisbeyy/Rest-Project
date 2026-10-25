@@ -2,55 +2,82 @@
 
 Ekran: [localhost:5173/pages/istegin-yolculugu](http://localhost:5173/pages/istegin-yolculugu). Yan menüde **İsteğin yolculuğu** bağlantısı var; görev ekranındaki kısa şema da buraya götürür.
 
-Bu sayfa öğretim amaçlı örnek akış gösterir. Senaryo seçmek API çağrısı göndermez ve PostgreSQL'e yazmaz. 42 numaralı görev temsildir. Gerçek çağrılar görev ekranındaki HTTP panelinden incelenir.
+Timeline, satır sonunda kıvrılarak bir alt satırda ters yönde devam eder. Numaralı noktalar ve bağlantı çizgileri akış sırasını gösterir. Kullanılabilir alanın genişliğine göre satır başına 2–6 adım yerleşir; yatay kaydırma gerekmez. Her durakta adım adı ve kısa açıklama görünür. Tıklayınca ayrıntılı açıklama, senaryo notu, girdi/çıktı, kod örneği ve debugger ipucu **PrimeReact Dialog** içinde açılır. Ana adımlar ve açılır ayrıntılarda toplam **27 karşılaştırma örneği**, girdi/koşul → beklenen sonuç → neden düzeninde anlatılır. [İçerik denetimi ve düzeltmeler](18-timeline-icerik-denetimi.md).
+
+Frontend **tek adım** olarak gösterilir. Devamındaki 14 adım backend'in HTTP isteğini almasını, MVC hazırlığını, katmanları ve yanıt üretmesini açıklar. Varsayılan örnek:
+
+Ana çizelgede **Controller → Service → Repository** doğrudan birbirini izler. Transaction başlangıcı, iş kuralı ve commit/rollback Service dialogundaki açılır ayrıntılardadır. MapStruct, yanıt dialogunda incelenir; gerçek eşleme yine Service içinde yapılır. Bu sadeleştirme kodun çalışma sırasını değiştirmez.
+
+```http
+GET /api/tasks?page=0&size=5&status=OPEN HTTP/1.1
+Host: localhost:8080
+Accept: application/json, application/problem+json
+```
+
+| İstek parçası | Backend'deki karşılığı |
+| --- | --- |
+| GET | HTTP metodu, handler seçimini etkiler |
+| /api/tasks | TaskController sınıfındaki ortak yol + findAll @GetMapping |
+| status=OPEN | @RequestParam TaskStatus status → TaskStatus.OPEN |
+| page=0, size=5 | @RequestParam int page/size; @Min/@Max kısıtları |
+| Host: localhost:8080 | Doğrudan backend'e gönderilen örnek isteğin hedefi |
+| Accept: application/json, application/problem+json | services/api.js içinde tanımlanan yanıt türleri |
+| Body / Authorization | Bu GET'te yok; çalışan API henüz kimlik bilgisi istemiyor |
+
+GET örneğinde body veya path variable yoktur. Tomcat durağında Servlet request'in nasıl temsil edildiği; bağlama durağında gerçek TaskController.findAll argümanları gösterilir. /api/tasks/{id} ayrı findById metodudur. Sayfalı listeye path variable veya uygulamada bulunmayan dil parametresi eklenmez.
+
+Bu sayfa görev API'sinin gerçek isteği ve projedeki kod parçalarıyla anlatım yapar. Senaryo seçmek API çağrısı göndermez ve PostgreSQL'e yazmaz. “Gerçek GET yanıtını aç” bağlantısı aynı yolu Next.js rewrite üzerinden çağırır; kullanıcı güncel yanıtı görebilir. Sabit örnek yanıt önceki yerel GET kontrolündendir; mevcut veritabanının canlı sonucu değildir. Son denetimde gorevdb içinde tasks tablosu bulunmadığı için veri okuma yanıtları 500 dönmüştür; [ortam bulguları](18-timeline-icerik-denetimi.md). Görev ekranı isteği 5173'e gönderir, rewrite 8080 backend'ine iletir.
 
 ## Nasıl anlatılır?
 
-1. GET senaryosuyla başla. Timeline'daki duraklara tıklayarak girdi/çıktı, açıklama, kod örneği ve debugger ipucunu aç.
+1. GET · Liste senaryosuyla başla. Ham isteği, query parametrelerini ve Accept header'ını göster. Altındaki gerçek kod yolu düğmelerinden ilgili sınıf/metodun dialogunu aç.
 2. DispatcherServlet → HandlerMapping → HandlerAdapter sırasını özellikle göster.
 3. POST'a geç; body'nin Jackson ile DTO'ya okunmasını, validation'ı ve 201/Location dönüşünü karşılaştır.
-4. POST 400 seç. Hata noktası otomatik seçilir; controller ve Service'in neden atlandığını aç.
-5. PATCH 409 seç. Mevcut görevin repository'den okunmasının iş kuralından önce olduğunu, sonra rollback/Advice yolunu göster.
-6. DELETE 204 seç. MapStruct ve JSON body yazımının bu senaryoda neden atlandığını aç.
+4. POST 400 seç. Hata noktası otomatik vurgulanır; tıklayıp dialogunu aç. Controller ve Service'in neden atlandığını da kendi duraklarından incele.
+5. PATCH 409 seç. Service hata noktası olarak vurgulanır. Dialogdan iş kuralı ve transaction çıkışını aç; Repository okumasından sonra Service'in reddettiğini ve rollback/Advice yolunu göster.
+6. DELETE 204 seç. Yanıt dialogundaki MapStruct ayrıntısını ve JSON body yazımının neden atlandığını aç.
 
-Atlanan duraklar da tıklanabilir: adımın genel görevi ve bu senaryoda neden çalışmadığı birlikte açıklanır. Önceki/sonraki düğmeleriyle gezilebilir. Timeline düğmelerindeyken ↑/↓, Home/End tuşları desteklenir. İnceleme konumu, yürütme süresi veya tamamlanmış gerçek istek göstergesi değildir.
+Atlanan duraklar da tıklanabilir: adımın genel görevi ve bu senaryoda neden çalışmadığı dialogda birlikte açıklanır. Aşama düğmeleriyle istemci/MVC/işlem/dönüş gruplarına hızlı geçilebilir. ←/→ o satırın yönünü, ↑/↓ bir üst/alt satırdaki konumu takip eder. Home/End ilk/son adıma gider; Enter veya Space dialogu açar. Dialogdaki önceki/sonraki düğmeleri kronolojik sırayla ilerler; Kapat veya Esc dialogu kapatır ve odağı açıldığı durağa döndürür. İnceleme konumu, yürütme süresi veya tamamlanmış gerçek istek göstergesi değildir.
 
-## 23 durak
+## 15 durak: tek frontend adımı ve backend
 
 | # | Durak | Ana soru |
 | --- | --- | --- |
-| 1 | Kullanıcı hareketi | React'te istek hangi olayla başlar? |
-| 2 | Redux async thunk | pending/fulfilled/rejected neyi değiştirir? |
-| 3 | Axios | URL, query, header ve body nasıl hazırlanır? |
-| 4 | Next.js rewrite | 5173'teki istek 8080'e nasıl ulaşır? |
-| 5 | Tomcat / Servlet nesneleri | HTTP hangi Java web nesneleriyle temsil edilir? |
-| 6 | Servlet FilterChain | İstek servlet'ten önce nasıl kesilebilir veya sarılabilir? |
-| 7 | DispatcherServlet | MVC bileşenlerini kim koordine eder? |
-| 8 | HandlerMapping | Hangi controller metodu seçilir? |
-| 9 | HandlerAdapter | Bu metot nasıl hazırlanıp çağrılır? |
-| 10 | Argüman/JSON bağlama | Path, query ve JSON nasıl Java tiplerine dönüşür? |
-| 11 | Bean Validation | Geçerli JSON'un alanları kurala uyuyor mu? |
-| 12 | Controller | HTTP sınırı işi kime devreder? |
-| 13 | Transaction proxy'si | Service çağrısının transaction sınırı nerede başlar? |
-| 14 | Service | İşlem nasıl koordine edilir? |
-| 15–16 | İş kuralı / Repository | Model hangi sırayla okunur ve değiştirilir? |
-| 17 | MapStruct | Model hangi Java yanıt DTO'suna dönüşür? |
-| 18 | Transaction'dan çıkış | Commit veya rollback ne zaman olur? |
-| 19 | Exception çözümleme / Advice | Hata nasıl ProblemDetail'e çevrilir? |
-| 20 | Dönüş değeri / ResponseEntity | HTTP status, header ve body nasıl seçilir? |
-| 21 | HttpMessageConverter / Jackson | DTO nasıl JSON body'ye yazılır? |
-| 22 | MVC / filtre zincirinden dönüş | Response istemciye nasıl geri gider? |
-| 23 | Axios → Redux → ekran | Sonuç veya hata kullanıcıya nasıl görünür? |
+| 1 | Frontend → HTTP isteği | İstemci backend'e hangi HTTP mesajını gönderir? |
+| 2 | Tomcat / Servlet nesneleri | HTTP hangi Java web nesneleriyle temsil edilir? |
+| 3 | Servlet FilterChain | İstek servlet'ten önce nasıl kesilebilir veya sarılabilir? |
+| 4 | DispatcherServlet | MVC bileşenlerini kim koordine eder? |
+| 5 | HandlerMapping | Hangi controller metodu seçilir? |
+| 6 | HandlerAdapter | Bu metot nasıl hazırlanıp çağrılır? |
+| 7 | Argüman/JSON bağlama | Path, query, header ve body nasıl okunur? |
+| 8 | Bean Validation | Alanlar ve metot argümanları kısıtlara uyuyor mu? |
+| 9 | Controller | HTTP sınırı işi kime devreder? |
+| 10 | Service | İşlem nasıl koordine edilir? Transaction ve iş kuralları ayrıntıdadır. |
+| 11 | Repository | Model nasıl okunur veya kaydedilir? |
+| 12 | Exception çözümleme / Advice | Hata nasıl ProblemDetail'e çevrilir? |
+| 13 | Dönüş değeri / ResponseEntity | HTTP status, header ve body nasıl seçilir? MapStruct ayrıntısı burada açılır. |
+| 14 | HttpMessageConverter / Jackson | DTO nasıl JSON body'ye yazılır? |
+| 15 | HTTP yanıtının gönderilmesi | MVC/filtre zincirinden nasıl geri dönülür? |
 
-15–16 sırası senaryoya göre değişir. POST'ta Service önce OPEN modeli oluşturur, sonra repository save çağrılır. PATCH 409'da önce mevcut kayıt okunur, sonra DONE geçiş kontrolü yapılır. Diğer duraklar da tek bir framework çağrısının alt adımları olabilir; 23 bağımsız ağ çağrısı yoktur.
+Bu çizelge katmanları sade biçimde gösterir; her nokta tek bir metot çağrısı veya 15 ayrı ağ isteği değildir. POST'ta Service önce OPEN modeli oluşturur, sonra Repository'ye kaydeder. PATCH 409'da Repository'den okunan kayıt Service'te kontrol edilir ve reddedilir. MapStruct, Service'in içinde yanıt DTO'sunu üretir; yanıt dialogunda bunun kodu gösterilir.
 
-## Üç farklı interceptor kavramı
+## Backend'de iki farklı interceptor kavramı
 
-- **Axios interceptor:** Tarayıcıdaki HTTP istemcisinin request/response kancası.
 - **MVC HandlerInterceptor:** Seçilen handler çevresindeki MVC kancası; bu projede özel uygulaması kayıtlı değil.
 - **TransactionInterceptor:** @Transactional Service çağrısını saran Spring AOP mekanizması.
 
 Servlet Filter, MVC interceptor'ından önceki container zincirindedir. P5'teki Security/JWT bu filtre sınırında yer alacak; bu ekran güvenliğin uygulanmış olduğunu göstermez.
+
+## Bizim kodumuzda takip edilecek metotlar
+
+1. [Frontend görev servisi](../frontend/services/taskService.js): getAll, page/size/status değerlerini ortak request fonksiyonuna verir. Frontend timeline'da tek adımdır.
+2. [TaskController](../backend/src/main/java/com/example/restworkshop/controllers/TaskController.java): findAll, gerçek @RequestParam ve sayfa kısıtlarını tanımlar; taskService.findAll çağırır.
+3. [TaskService](../backend/src/main/java/com/example/restworkshop/services/TaskService.java): findAll, id ASC sıralama ve PageRequest oluşturur; filtre varsa findByStatus dalına gider.
+4. [TaskRepository](../backend/src/main/java/com/example/restworkshop/repositories/TaskRepository.java): findByStatus, Page<Task> döndürür.
+5. [TaskMapper](../backend/src/main/java/com/example/restworkshop/dto/mapper/TaskMapper.java): toDto(tasks.getContent()), List<TaskResponse> üretir.
+6. [TaskPageResponse](../backend/src/main/java/com/example/restworkshop/dto/TaskPageResponse.java): items ve sayfalama alanlarını taşır; JSON'u Jackson yazar.
+
+Framework duraklarındaki Servlet API ve DispatcherServlet örnekleri altyapıyı açıklar; bunlar uygulamada ayrıca yazdığımız özel filtre/controller sınıfları gibi sunulmaz.
 
 ## DispatcherServlet'i açarken
 
@@ -64,7 +91,13 @@ Normal REST body yazıldıktan sonraki MVC postHandle aşamasını yeni response
 
 - [Next.js sayfası](<../frontend/app/(main)/pages/istegin-yolculugu/page.js>)
 - [Etkileşimli ekran](<../frontend/app/(main)/pages/istegin-yolculugu/components/RequestJourneyPage.jsx>)
+- [Adım ayrıntısı dialogu](<../frontend/app/(main)/pages/istegin-yolculugu/components/JourneyStepDialog.jsx>)
+- [Ham HTTP isteği ve açıklaması](<../frontend/app/(main)/pages/istegin-yolculugu/components/HttpRequestExample.jsx>)
+- [Gerçek görev GET isteği ve kaynak kod alıntıları](<../frontend/app/(main)/pages/istegin-yolculugu/components/taskRequestExample.js>)
 - [Açıklamalar ve senaryolar](<../frontend/app/(main)/pages/istegin-yolculugu/components/journeyContent.js>)
+- [27 açıklayıcı örnek](<../frontend/app/(main)/pages/istegin-yolculugu/components/journeyExamples.js>)
+- [POST/PATCH/DELETE ve Advice kaynak alıntıları](<../frontend/app/(main)/pages/istegin-yolculugu/components/journeyApplicationCode.js>)
+- [Örneklerin dialog gösterimi](<../frontend/app/(main)/pages/istegin-yolculugu/components/JourneyExampleCards.jsx>)
 - [Sass stilleri](../frontend/styles/pages/istegin-yolculugu.scss)
 - [Davranış testleri](../frontend/tests/journey.test.jsx)
 
@@ -72,6 +105,6 @@ Anlatım değiştiğinde journeyContent içindeki açıklama ve örnekleri gerç
 
 ## Doğrulama
 
-Timeline'ın 4 testi; detay açma, önceki/sonraki ve klavye gezintisi, 400'de atlanan Service/transaction, 409'da repository/kural sırası ve rollback, 204'te DTO/JSON body atlanmasını kontrol eder. Önceki 14 frontend testiyle toplam 18 test geçti; lint ve Next.js üretim build'i başarılı. Gerçek tarayıcı görsel provası, önceki Chrome erişim onayı kısıtı nedeniyle ayrıca doğrulanmış sayılmıyor.
+Timeline'ın 9 testi; gerçek görev GET mesajı, tek frontend adımı, Controller/Service/Repository bitişikliği, ayrıntılara taşınan transaction/iş kuralı/MapStruct, kod yolu düğmeleri, dialog/klavye gezintisi ve 400/409/204 rotalarını kontrol eder. Seçili hata senaryosunda doğru Advice/ProblemDetail kodu, POST Servlet değerleri ve örneklerin görünmesi de test edilir. Önceki 14 frontend testiyle toplam 23 test, lint ve Next.js üretim build'i başarılı; 19 backend testi de H2 üzerinde geçti. Güncel PostgreSQL kontrolünün şema sınırı ve önceki sonuçlardan farkı [denetim kaydındadır](18-timeline-icerik-denetimi.md). Gerçek tarayıcı görsel provası, önceki Chrome erişim onayı kısıtı nedeniyle ayrıca doğrulanmış sayılmıyor.
 
 [Yaşam döngüsü dersi](06-yasam-dongusu.md) · [Demo akışı](10-demo-akisi.md) · [İçindekiler](README.md)

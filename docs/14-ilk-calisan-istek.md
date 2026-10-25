@@ -71,7 +71,7 @@ Olmayan pozitif ID için [TaskNotFoundException](../backend/src/main/java/com/ex
 - API testleri: filtre ve sayfalama toplamları, boş sayfa, liste ID'siyle detay, 404 ve geçersiz parametreler.
 - Test profili: yalnızca H2; PostgreSQL kayıtlarına müdahale etmez.
 - Canlı PostgreSQL: liste/detay ve Next.js rewrite üzerinden CRUD doğrulandı. Başlangıçtaki altı kaydın bütün alanları kontrol sonunda aynı kaldı; yeni veriler için her durumda iki görev varsayılmaz.
-- Frontend: Next.js üretim derlemesi, lint ve 18 otomatik test başarılı. Backend WAR paketleme, üretilen MapStruct ve OpenAPI şeması kontrol edildi.
+- Frontend: Next.js üretim derlemesi, lint ve 20 otomatik test başarılı. Backend WAR paketleme, üretilen MapStruct ve OpenAPI şeması kontrol edildi.
 - Görsel kontrol: Chrome kullanımına otomatik onay verilmediğinden yapılmadı; etkileşim provası henüz doğrulanmış sayılmıyor.
 
 ## Sıradaki geliştirme

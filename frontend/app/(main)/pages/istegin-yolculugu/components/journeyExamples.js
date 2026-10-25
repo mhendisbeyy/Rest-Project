@@ -1,0 +1,157 @@
+// These are teaching comparisons, not runtime traces of the selected request.
+export const explanatoryExamples = {
+  browser: [{
+    title: 'OPEN filtresini seçtiğinde',
+    input: 'page=0, size=5, status=OPEN',
+    result: 'GET /api/tasks?page=0&size=5&status=OPEN\nAccept: application/json, application/problem+json',
+    explanation: 'services/taskService.js URL parametrelerini, services/api.js Accept başlığını hazırlar. GET body’si gönderilmez. Frontend tek adımda gösterilir.',
+  }],
+  tomcat: [{
+    title: 'Yol ile query aynı değer değildir',
+    input: 'GET /api/tasks?page=0&size=5&status=OPEN',
+    result: 'getRequestURI() → /api/tasks\ngetQueryString() → page=0&size=5&status=OPEN\ngetParameter("status") → OPEN',
+    explanation: 'Container request/response nesnelerini sağlar. Tomcat bu aşamada JSON’u CreateTaskRequest’e dönüştürmez; body dönüşümü MVC’de yapılır.',
+  }],
+  filters: [{
+    title: 'Filtre zincirinin gidişi ve dönüşü',
+    input: 'Kavramsal A filtresi → B filtresi → DispatcherServlet',
+    result: 'A: önce → B: önce → MVC → B: sonra → A: sonra',
+    explanation: 'A/B özel filtreleri projede kayıtlı değildir; örnek chain.doFilter çevresindeki kontrol sırasını anlatır. Zincire devam edilmezse controller çağrılmaz.',
+  }],
+  dispatcher: [{
+    title: 'İş kuralını DispatcherServlet yazmaz',
+    input: 'GET /api/tasks?status=OPEN',
+    result: 'HandlerMapping → HandlerAdapter\nAdapter içinde: argümanlar → controller → dönüş değeri → JSON',
+    explanation: 'Timeline bu iç içe akışı öğretmek için ayırır. OPEN sorgusunu Service/Repository yürütür; DispatcherServlet koordinasyonu sağlar.',
+  }],
+  mapping: [{
+    title: 'Aynı yol, iki ayrı HTTP metodu',
+    input: 'GET /api/tasks\nPOST /api/tasks',
+    result: 'GET → TaskController.findAll\nPOST → TaskController.create',
+    explanation: 'Query filtreleri bu projede yeni bir controller seçmez. @GetMapping ve @PostMapping farklı metotları eşler.',
+  }, {
+    title: 'Yanlış metodun sonucu 404 değildir',
+    input: 'POST /api/tasks/42',
+    result: '405 Method Not Allowed · METHOD_NOT_ALLOWED\nAllow başlığında desteklenen metotlar korunur.',
+    explanation: '/api/tasks/{id} yolu vardır, fakat POST eşlemesi yoktur. Reddetme handler seçimi sırasında olur; kaydın veritabanında varlığına bakılmaz.',
+  }],
+  adapter: [{
+    title: 'Metot imzası nasıl çağrılabilir hale gelir?',
+    input: 'findAll(TaskStatus status, int page, int size)',
+    result: 'Argüman çözümleyicileri → doğrulama → findAll(OPEN, 0, 5)\nMetot dönünce: dönüş işleyicisi → mesaj dönüştürücü',
+    explanation: 'HandlerMapping metodu bulur; HandlerAdapter çağrı ve dönüş ayrıntılarını yürütür. Validation veya JSON dönüşümü hata verirse controller gövdesine ulaşılmayabilir.',
+  }],
+  binding: [{
+    title: 'Query metninden Java enum/int değerlerine',
+    input: 'GET /api/tasks?status=OPEN&page=0&size=5',
+    result: 'status → TaskStatus.OPEN\npage → int 0\nsize → int 5',
+    explanation: 'GET liste metodunda @RequestParam kullanılır. Body veya path variable yoktur; @RequestHeader parametresi de tanımlı değildir.',
+  }, {
+    title: 'Dönüştürülemeyen enum ile geçerli veri farkı',
+    input: 'GET /api/tasks?status=UNKNOWN',
+    result: '400 Bad Request · INVALID_REQUEST\nController/Service çağrısı gerçekleşmez.',
+    explanation: 'UNKNOWN, TaskStatus’a dönüşemez. Bu bir DONE iş kuralı çatışması değildir; hata MVC parametre dönüşümündedir.',
+  }, {
+    title: 'Path, JSON body ve header farklı kaynaklardır',
+    input: 'PATCH /api/tasks/42\nContent-Type: application/json\nAccept: application/json, application/problem+json\n\n{"status":"DONE"}',
+    result: '@PathVariable id → Long 42\n@RequestBody request.getStatus() → TaskStatus.DONE\nContent-Type → gelen body türü\nAccept → istenen yanıt türleri',
+    explanation: 'TaskController.updateStatus bu iki Java argümanını alır. Header’lar bu metotta @RequestHeader argümanına bağlanmaz; MVC dönüşümünde kullanılır. JSON içindeki status, Servlet getParameter("status") ile okunmaz. Görevin varlığı daha sonra Service’te denetlenir.',
+  }],
+  validation: [{
+    title: 'Geçerli JSON, geçersiz başlık',
+    input: 'POST /api/tasks\nContent-Type: application/json\n\n{"title":"","description":"Taslak"}',
+    result: '400 VALIDATION_ERROR\nfieldErrors: title → Başlık boş olamaz.',
+    explanation: 'JSON okunabilir fakat @NotBlank başarısızdır. Create metodunda MethodArgumentNotValidException ele alınır; Service’e geçilmez.',
+  }, {
+    title: 'Dönüşebilen sayı yine de kurala uymayabilir',
+    input: 'GET /api/tasks?page=-1&size=5',
+    result: '400 Bad Request · INVALID_REQUEST',
+    explanation: '-1 bir int değeridir, ancak @Min(0) kısıtına uymaz. Metot kısıtları HandlerMethodValidationException üretebilir; advice bu girişleri de işler.',
+  }],
+  controller: [{
+    title: 'HTTP argümanlarından Service çağrısına',
+    input: 'status=OPEN, page=0, size=5',
+    result: 'return taskService.findAll(status, page, size);',
+    explanation: 'Controller HTTP argümanlarını Service’e verir. Entity’leri toplamak, filtre dalını seçmek ve yanıt DTO’su oluşturmak Service’in sorumluluğudur.',
+  }],
+  transaction: [{
+    title: 'GET ve POST aynı transaction ayarıyla çalışmaz',
+    input: 'TaskService.findAll(...) / TaskService.create(...)',
+    result: 'findAll → sınıftaki readOnly=true\ncreate → metottaki @Transactional, yazma işlemi',
+    explanation: 'Sınır Service proxy çağrısını sarar. readOnly bir optimizasyon ipucudur; kullanıcı rolü veya genel bir yazma yetkisi kontrolü değildir.',
+  }],
+  service: [{
+    title: 'Filtreye göre repository dalı seçilir',
+    input: 'status=OPEN / status parametresi yok',
+    result: 'OPEN → findByStatus(OPEN, pageable)\nYok → findAll(pageable)\nHer iki durumda: id ASC sıralama ve TaskPageResponse',
+    explanation: 'Toplamlar uygulamadaki sabit 6 kayıt sayısından değil, filtreli Page sonucundan alınır. Geçerli bir sayfa boşsa 200 ve boş items dönebilir.',
+  }, {
+    title: '409 neden validation’dan sonra oluşur?',
+    input: 'Önkoşul: örnek görev 42 mevcut ve DONE.\nPATCH /api/tasks/42 · {"status":"OPEN"}',
+    result: 'Repository’den oku → Service’te durum kuralını kontrol et\n409 TASK_STATE_CONFLICT; değişiklik ve mapper çağrısı yapılmaz.',
+    explanation: 'OPEN geçerli enum’dur. Çatışmayı anlamak için mevcut DONE kaydı gerekir. Bu yüzden karar Service’tedir; ana çizelge katmanların giriş sırasını gösterir.',
+  }],
+  rules: [{
+    title: 'Aynı değer ile yeniden açma isteği farklıdır',
+    input: 'Mevcut durum DONE.\nİstenen durum: DONE veya OPEN',
+    result: 'DONE → DONE: kabul\nDONE → OPEN: 409 TASK_STATE_CONFLICT',
+    explanation: 'validateStatusTransition, PUT ve PATCH tarafından ortak çağrılır. Kontrol alanları değiştirmeden önce yapılır; reddedilen PUT başlığı/açıklamayı da değiştirmez.',
+  }],
+  repository: [{
+    title: 'save çağrısı commit demek değildir',
+    input: 'POST: taskRepository.save(new Task(..., OPEN))',
+    result: 'Entity kaydedilir; IDENTITY için INSERT ve ID üretimi commit’ten önce gerçekleşebilir.',
+    explanation: 'Bu modelde GenerationType.IDENTITY vardır. PUT/PATCH yönetilen entity’yi dirty checking ile günceller; her işlemde ayrıca save yazmak gerekmez. Flush ile commit de farklı aşamalardır.',
+  }],
+  mapper: [{
+    title: 'DTO üretmek ile JSON yazmak farklı işlerdir',
+    input: 'Task entity’leri → taskMapper.toDto(tasks.getContent())',
+    result: 'List<TaskResponse> · hâlâ Java nesneleri\nJSON daha sonra Spring MVC/Jackson tarafından yazılır.',
+    explanation: 'MapStruct eşleme kodunu derlemede üretir. API’mizdeki mapper veri tabanını sorgulamaz; DELETE yanıtında DTO olmadığı için çağrılmaz.',
+  }],
+  commit: [{
+    title: 'Hatanın transaction sınırına göre yeri önemlidir',
+    input: 'Service içinde TaskStateConflictException / commit tamamlandıktan sonra JSON yazım hatası',
+    result: 'Service’te RuntimeException → rollback\nTamamlanmış commit’ten sonraki hata → önceki transaction kendiliğinden geri alınmaz.',
+    explanation: 'Varsayılan rollback RuntimeException ve Error içindir; checked exception için yapılandırma gerekebilir. DTO hazırlanmış olması commit’in başarılı olduğunu tek başına kanıtlamaz.',
+  }],
+  exception: [{
+    title: '404 kaynağın bulunmaması, 400 girişin bozuk olmasıdır',
+    input: 'GET /api/tasks/9223372036854775807\nGET /api/tasks/0',
+    result: 'DB erişilebilir ve ilk ID için kayıt yok → 404 TASK_NOT_FOUND\n0 pozitif değil → 400 INVALID_REQUEST',
+    explanation: 'İlkinde Service requireTask, ikincisinde MVC metot kısıtı devreye girer. Tablo veya bağlantı hatası kaynak bulunamadı anlamına gelmez; bu projede 500 INTERNAL_ERROR olarak karşılanır.',
+  }, {
+    title: '415 ile 400 aynı hata değildir',
+    input: 'POST /api/tasks\nContent-Type: text/plain\n\n{"title":"Demo"}',
+    result: '415 Unsupported Media Type · UNSUPPORTED_MEDIA_TYPE',
+    explanation: 'Body JSON’a benzese de gönderilen medya türü uygun değildir. Framework status/header bilgileri advice tarafından korunur.',
+  }],
+  response: [{
+    title: 'Yeni kaynağın kimliği yanıttan alınır',
+    input: 'Geçerli title ile POST /api/tasks',
+    result: '201 Created\nLocation: /api/tasks/{sunucunun-ürettiği-id}\nBody: oluşturulan TaskResponse',
+    explanation: 'Örneklerdeki 42 sabit bir canlı kayıt varsayımı değildir. Gerçek demoda POST’un döndürdüğü ID ve Location kullanılır.',
+  }, {
+    title: 'DELETE başarısı boş body’dir',
+    input: 'Önkoşul: kayıt mevcut. DELETE /api/tasks/{id}',
+    result: '204 No Content\nYanıtta JSON, null metni veya {} body’si yoktur.',
+    explanation: 'ResponseEntity.noContent().build() kullanılır. Aynı ID’ye tekrar istek kaynak bulunmadığı için 404 dönebilir.',
+  }],
+  serialization: [{
+    title: 'Yanıt DTO’sunun enum alanı metne dönüşür',
+    input: 'TaskResponse: id=42, title="Demo", description=null, status=OPEN',
+    result: '{"id":42,"title":"Demo","description":null,"status":"OPEN"}',
+    explanation: 'Bu temsili nesneyi Jackson JSON’a yazar. TaskPageResponse ise items/page/size/totalElements/totalPages zarfını taşır; MapStruct HTTP status veya Content-Type seçmez.',
+  }, {
+    title: 'Hata gövdesi başarı DTO’su olamaz',
+    input: 'Boş başlıklı POST → advice’ın 400 ProblemDetail sonucu',
+    result: 'Content-Type: application/problem+json\nstatus=400, code=VALIDATION_ERROR, fieldErrors=[title hatası]',
+    explanation: 'Bu rotada TaskResponse yerine ProblemDetail yazılır. Seçili senaryonun kod alanı, o senaryonun hata JSON’unu gösterir.',
+  }],
+  unwind: [{
+    title: 'Kontrolün dönüşü ile ağ gönderim zamanı aynı ölçüm değildir',
+    input: 'MVC yanıtı yazdıktan sonra chain.doFilter çağrısının geri dönmesi',
+    result: 'Varsa filtrelerin finally/sonrası kodları çalışır; status okunabilir.',
+    explanation: 'Body bu sıradan önce yazılmış veya commit edilmiş olabilir. Buradaki şema senkron MVC kontrol akışıdır; paket zamanları veya katman süreleri ölçülmez.',
+  }],
+};

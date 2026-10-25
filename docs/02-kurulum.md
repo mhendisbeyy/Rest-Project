@@ -115,6 +115,6 @@ node scripts/smoke-crud.mjs http://127.0.0.1:5173
 
 Betik benzersiz bir test görevi oluşturur, CRUD/hata sözleşmesini kontrol eder ve kendi kaydını temizler. Mevcut kayıtları veya ID sayacını sıfırlamaz.
 
-25 Ekim 2026 dönüşüm doğrulaması: 19 backend ve 18 frontend testi, lint, Next.js build ve WAR paketleme başarılı. Canlı kontrolden sonra başlangıçtaki 6 PostgreSQL kaydının id/title/description/status alanları aynı kaldı. Gerçek tarayıcı provası Chrome erişiminin otomatik onayda reddedilmesi nedeniyle yapılamadı.
+Güncel içerik denetiminde 19 backend ve 23 frontend testi, lint ve Next.js build başarılı. WAR paketleme ve mevcut 6 PostgreSQL kaydının korunması önceki YKH dönüşümünde doğrulanmıştı. Son salt okunur kontrolde gorevdb içinde tasks tablosu bulunmadı; veri erişimi gerektiren canlı istekler 500 döndü. [Güncel ortam bulguları](18-timeline-icerik-denetimi.md). Gerçek tarayıcı provası Chrome erişiminin otomatik onayda reddedilmesi nedeniyle yapılamadı.
 
 [Önceki: HTTP ve REST](01-http-ve-rest.md) · [Sonraki: Katmanlar](03-katmanlar.md)

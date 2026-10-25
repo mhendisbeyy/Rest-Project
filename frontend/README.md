@@ -2,7 +2,7 @@
 
 YKH `ykhclient` düzenini izleyen Next.js App Router ve JavaScript uygulaması. Ana sayfa `/pages/gorevler`; kök adres buraya yönlenir.
 
-`/pages/istegin-yolculugu`, 23 tıklanabilir durakla ayrı eğitim ekranıdır. GET/POST/400/409/204 senaryoları; açıklama, girdi/çıktı, kod ve debugger ipucu içerir. API çağrısı göndermez. [Kullanım notları](../docs/17-interaktif-istek-yolculugu.md).
+`/pages/istegin-yolculugu`, satır sonunda kıvrılarak devam eden 15 duraklı eğitim ekranıdır: tek frontend adımı ve 14 backend durağı. Controller → Service → Repository peş peşedir; transaction ve iş kuralı Service ayrıntısında, MapStruct yanıt ayrıntısında açılır. Varsayılan gerçek GET /api/tasks?page=0&size=5&status=OPEN isteği ve kaynak kod düğmeleri korunur. “Gerçek GET yanıtını aç” bağlantısı güncel API JSON'unu gösterir. [Kullanım notları](../docs/17-interaktif-istek-yolculugu.md).
 
 ## Komutlar
 
@@ -39,7 +39,7 @@ app/
       Dialogs/                # TaskFormDialog
     pages/istegin-yolculugu/
       page.js
-      components/             # RequestJourneyPage, journeyContent
+      components/             # RequestJourneyPage, JourneyStepDialog, HttpRequestExample, içerikler
 components/                   # HTTP paneli ve yaşam döngüsü şeması
 layout/context/               # Menü durumu
 services/                     # Axios istemcisi ve TaskService
@@ -61,7 +61,7 @@ npm.cmd run lint
 npm.cmd run build
 ```
 
-18 test; 204, ProblemDetail, ağ hatası, iptal, form hataları, PUT/PATCH, silme onayı, son sayfa, geçmiş seçimi, filtre, store yalıtımı ve timeline etkileşimlerini kapsar. JSDOM gerçek tarayıcı görsel provası değildir. DOM test dosyaları, kaynak yarışını önlemek için sırayla çalıştırılır; test başına süre sınırı 10 saniyedir.
+23 test; 204, ProblemDetail, ağ hatası, iptal, form hataları, PUT/PATCH, silme onayı, son sayfa, geçmiş seçimi, filtre, store yalıtımı ve timeline etkileşimlerini kapsar. Timeline'ın 9 testi, hata senaryosuna uygun kod/JSON ve Servlet örneklerini de kontrol eder. Dialoglarda 27 açıklayıcı örnek bulunur; [içerik denetimi](../docs/18-timeline-icerik-denetimi.md). JSDOM gerçek tarayıcı görsel provası değildir. DOM test dosyaları, kaynak yarışını önlemek için sırayla çalıştırılır; test başına süre sınırı 10 saniyedir.
 
 Vite uygulama sunucusu kaldırıldı. `@vitejs/plugin-react` ve dolaylı Vite bağımlılığı yalnızca Vitest'in JSX test dönüşümünde kullanılır. Ürün `next dev/build/start` ile çalışır. Next.js 15.5.28 korunurken denetimde saptanan eski PostCSS alt bağımlılığı `overrides.postcss` ile güncel 8.x yamasına alınmıştır; çözülen kesin sürüm lock dosyasındadır.
 

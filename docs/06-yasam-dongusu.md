@@ -1,6 +1,6 @@
 # 06 — Bir isteğin yaşam döngüsü
 
-Bu dersi [ayrı timeline ekranında](http://localhost:5173/pages/istegin-yolculugu) adım adım anlatabilirsin. DispatcherServlet, HandlerMapping, HandlerAdapter, binding, validation ve dönüşüm ayrı duraklardır. Her durağın açıklama, kod örneği ve debugger ipucu bulunur. [Ekranın kullanım notları ve 23 durak](17-interaktif-istek-yolculugu.md).
+Bu dersi [ayrı timeline ekranında](http://localhost:5173/pages/istegin-yolculugu) adım adım anlatabilirsin. Frontend tek adım; kalan 14 durak backend'e odaklanır. Gerçek GET /api/tasks?page=0&size=5&status=OPEN isteği, TaskController/TaskService/TaskRepository/TaskMapper kod parçalarıyla takip edilir. [Ekranın kullanım notları ve 15 durak](17-interaktif-istek-yolculugu.md).
 
 ## Çalışan akış
 

@@ -22,7 +22,8 @@ P1–P4 ve YKH yapısına dönüşüm tamamlandı: GET/POST/PUT/PATCH/DELETE, fo
 | [14 — İlk çalışan istek](14-ilk-calisan-istek.md) | Mevcut kodda React → PostgreSQL akışını adım adım izle |
 | [15 — CRUD ve doğrulama](15-crud-ve-dogrulama.md) | POST/PUT/PATCH/DELETE, iş kuralı ve hata yanıtlarını göster |
 | [16 — YKH yapısına geçiş](16-ykh-yapisina-gecis.md) | Yeni dosya düzeni, teknoloji dönüşümü ve doğrulama kaydı |
-| [17 — İnteraktif istek yolculuğu](17-interaktif-istek-yolculugu.md) | 23 duraklı timeline, DispatcherServlet ayrıntıları ve hata rotaları |
+| [17 — İnteraktif istek yolculuğu](17-interaktif-istek-yolculugu.md) | 15 duraklı timeline, DispatcherServlet ayrıntıları ve hata rotaları |
+| [18 — Timeline içerik denetimi](18-timeline-icerik-denetimi.md) | Kod karşılaştırması, 27 açıklayıcı örnek, düzeltmeler ve güncel doğrulama sınırları |
 
 ## Ders anlatma biçimi
 
